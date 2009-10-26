@@ -1,12 +1,12 @@
 #!/usr/bin/env perl
 
-use common::sense;
+use strict;
 use lib::abs '../lib';
-use Test::More tests => 1;
-BEGIN { $ENV{DEBUG_CB} = 0 }
-use Devel::Leak::Cb;
+use Test::NoWarnings;
+use Test::More tests => 2;
+BEGIN { $ENV{DEBUG_MEM} = 0 }
+use Dash::Leak sub { fail "Should not be called" };
 
-my $sub;$sub = cb {
-	$sub;
-};
+my $memuse = 'x'x1000000;# allocate at least 1Mb
+leaksz "check", sub { fail "Should not be called" };
 ok 1;

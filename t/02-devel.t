@@ -1,17 +1,18 @@
 #!/usr/bin/env perl
 
-use common::sense;
+use strict;
 use lib::abs '../lib';
-use Test::More tests => 2;
-BEGIN { $ENV{DEBUG_CB} = 1 }
-use Devel::Leak::Cb;
+use Test::NoWarnings;
+use Test::More tests => 5;
+BEGIN { $ENV{DEBUG_MEM} = 1 }
+use Dash::Leak sub { pass "called during load" };
 
-my $sub;$sub = cb {
-	$sub;
-};
-END {
-	$SIG{__WARN__} = sub {
-		ok 1, "have warn";
-		like $_[0],qr/^Leaked:/, 'warn correct';
-	};
+my $memuse = 'x'x1000000;# allocate at least 1Mb
+leaksz "check", sub { pass "called for memuse" };
+
+{
+	leaksz "scoped", sub { pass "leaked in scope" };
+	my $usescope = 'x'x1000000;# allocate at least 1Mb
 }
+
+ok 1, 'simple ok';

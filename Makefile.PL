@@ -8,6 +8,7 @@ version   my $v = '0.01';
 license  'perl';
 
 build_requires 'Test::More';
+build_requires 'Test::NoWarnings';
 build_requires 'lib::abs';
 
 requires 'Devel::Declare';

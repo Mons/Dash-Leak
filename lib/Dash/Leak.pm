@@ -86,7 +86,7 @@ BEGIN {
 sub import{
 	my $class = shift;
 	my $caller = caller;
-	check("use $class from @{[ (caller)[1,2] ]}") if DEBUG;
+	check("use $class from @{[ (caller)[1,2] ]}",@_) if DEBUG;
 	Devel::Declare->setup_for(
 		$caller,
 		{ $SUBNAME => { const => \&parse } }
@@ -108,7 +108,7 @@ sub check(@) {
 		if ($cb) {
 			$cb->();
 		} else {
-			warn sprintf "%s %s: %+dk at %s line %s\n",($OUT ? '<-' : '+>'),$op,$delta,(caller($OUT))[1,2];
+			warn sprintf "%s %s: %+dk at %s line %s\n",($OUT ? '<-' : '->'),$op,$delta,(caller($OUT))[1,2];
 		}
 	}
 	return 1 if $OUT;

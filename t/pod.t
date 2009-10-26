@@ -17,3 +17,4 @@ eval "use File::Find; 1"
 all_pod_files_ok();
 
 exit 0;
+require Test::NoWarnings;

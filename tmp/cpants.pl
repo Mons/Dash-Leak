@@ -28,8 +28,8 @@ printf "\n== Kwalitee:%s ==\n",$analyser->d->{kwalitee}{kwalitee};
 for (keys %{ $analyser->d->{kwalitee} }) {
 	print "$_: 0\n" unless $analyser->d->{kwalitee}{$_};
 }
-if ($analyser->d->{kwalitee}{kwalitee} < 40) {
-	die "Kwalitee lower than 40\n";
+if ($analyser->d->{kwalitee}{kwalitee} < 41) {
+	die "Kwalitee lower than 41\n";
 }
 
 END {
