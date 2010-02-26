@@ -6,7 +6,7 @@ use warnings;
 
 =head1 NAME
 
-Dash::Leak - The great new Dash::Leak!
+Dash::Leak - Track memory allocation
 
 =head1 VERSION
 
@@ -15,7 +15,6 @@ Version 0.01
 =cut
 
 our $VERSION = '0.01';
-
 
 =head1 SYNOPSIS
 
@@ -99,7 +98,8 @@ sub import{
 
 sub check(@) {
 	use integer;
-	my $cb = pop if @_ > 1 and UNIVERSAL::isa( $_[-1], 'CODE' );
+	my $cb;
+	$cb = pop if @_ > 1 and UNIVERSAL::isa( $_[-1], 'CODE' );
 	my $op = "@_";
 	my $mem = sz / 1024;
 	my $delta = $mem - $cmem;
@@ -139,7 +139,7 @@ Mons Anderson, C<< <mons at cpan.org> >>
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2009 Mons Anderson, all rights reserved.
+Copyright 2010 Mons Anderson, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

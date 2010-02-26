@@ -4,7 +4,6 @@ use inc::Module::Install;
 name     'Dash-Leak';
 all_from 'lib/Dash/Leak.pm';
 author   'Mons Anderson <mons@cpan.org>';
-version   my $v = '0.01';
 license  'perl';
 
 build_requires 'Test::More';
@@ -20,12 +19,7 @@ if ($^O eq 'freebsd') {
 	die "No support for $^O yet. Patches are welcome";
 }
 
-provides 'Dash::Leak' => {
-	version => $v,
-	file    => 'lib/Dash/Leak.pm',
-};
-
-
+auto_provides;
 auto_install;
 
 WriteAll;

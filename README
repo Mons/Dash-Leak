@@ -1,5 +1,5 @@
 NAME
-    Dash::Leak - The great new Dash::Leak!
+    Dash::Leak - Track memory allocation
 
 VERSION
     Version 0.01
@@ -8,15 +8,15 @@ SYNOPSIS
     Quick summary of what the module does.
 
         use Dash::Leak;
-
-    {
-        leaksz "block label";
-        # some code, that may leak
+    
+        {
+            leaksz "block label";
+            # some code, that may leak
         }
         # If your code leaked, you'll be noticed about change
         # of process vsize after leaving block
-
-    leaksz "tests begin";
+    
+        leaksz "tests begin";
         some_operation($arg);
         leaksz "some_operation", sub { "We leaked after some_operation($arg);" };
         another_operation();
@@ -38,7 +38,7 @@ AUTHOR
     Mons Anderson, "<mons at cpan.org>"
 
 COPYRIGHT & LICENSE
-    Copyright 2009 Mons Anderson, all rights reserved.
+    Copyright 2010 Mons Anderson, all rights reserved.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
