@@ -3,7 +3,7 @@
 use strict;
 use lib::abs '../lib';
 use Test::NoWarnings;
-use Test::More tests => 5;
+use Test::More tests => 2;
 BEGIN { $ENV{DEBUG_MEM} = 1 }
 use Dash::Leak sub { pass "called during load" };
 

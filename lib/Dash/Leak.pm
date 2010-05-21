@@ -60,9 +60,12 @@ BEGIN {
 	if ($^O eq 'freebsd') {
 		require BSD::Process;
 		*sz = sub () { BSD::Process->new->{size} };
+    }
+	elsif ($^O eq 'linux') {
+		require Proc::ProcessTable;
+		*sz = sub () { map { $_->{size} } grep { $_->{pid} == $$ } @{Proc::ProcessTable->new->table} };
 	} else {
 		require Carp;Carp::croak( "Not implemented for platform $^O. Patches are welcome" );
-		# Proc::ProcessTable for linux
 		# Win32::Process::Info for win
 	}
 }

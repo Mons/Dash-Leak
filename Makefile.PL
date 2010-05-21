@@ -15,6 +15,9 @@ requires 'Guard';
 
 if ($^O eq 'freebsd') {
 	requires 'BSD::Process';
+}
+elsif ($^O eq 'linux') {
+    require Proc::ProcessTable;
 } else {
 	die "No support for $^O yet. Patches are welcome";
 }
