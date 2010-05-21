@@ -1,9 +1,6 @@
 NAME
     Dash::Leak - Track memory allocation
 
-VERSION
-    Version 0.01
-
 SYNOPSIS
     Quick summary of what the module does.
 
@@ -33,6 +30,10 @@ FUNCTIONS
     Starts tracking current block. If something changed since last note,
     notice will be warned. If callback is passed, it will be invoked instead
     of warn.
+
+ACKNOWLEDGEMENTS
+    *   Thanks to knevgen (<http://github.com/knevgen>) for linux version
+        patch
 
 AUTHOR
     Mons Anderson, "<mons at cpan.org>"

@@ -1,5 +1,8 @@
 Revision history for Dash-Leak
 
+0.02    2010-05-21
+        Include patch with linux support
+
 0.01    Date/time
         First version, released on an unsuspecting world.
 

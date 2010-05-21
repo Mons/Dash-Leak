@@ -17,9 +17,9 @@ if ($^O eq 'freebsd') {
 	requires 'BSD::Process';
 }
 elsif ($^O eq 'linux') {
-    requires 'Proc::ProcessTable';
+	requires 'Proc::ProcessTable';
 } else {
-	die "No support for $^O yet. Patches are welcome";
+	die "NA: No support for $^O yet. Patches are welcome";
 }
 
 auto_provides;

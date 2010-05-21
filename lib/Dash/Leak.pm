@@ -8,13 +8,9 @@ use warnings;
 
 Dash::Leak - Track memory allocation
 
-=head1 VERSION
-
-Version 0.01
-
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -60,7 +56,7 @@ BEGIN {
 	if ($^O eq 'freebsd') {
 		require BSD::Process;
 		*sz = sub () { BSD::Process->new->{size} };
-    }
+	}
 	elsif ($^O eq 'linux') {
 		require Proc::ProcessTable;
 		*sz = sub () { map { $_->{size} } grep { $_->{pid} == $$ } @{Proc::ProcessTable->new->table} };
@@ -135,6 +131,13 @@ END {
 	DEBUG and check("Finishing");
 }
 
+=head1 ACKNOWLEDGEMENTS
+
+=over 4
+
+=item * Thanks to knevgen (L<http://github.com/knevgen>) for linux version patch
+
+=back
 
 =head1 AUTHOR
 

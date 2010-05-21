@@ -1,6 +1,7 @@
 ---
 abstract: 'Track memory allocation'
 author:
+  - 'Mons Anderson, C<< <mons at cpan.org> >>'
   - 'Mons Anderson <mons@cpan.org>'
 build_requires:
   ExtUtils::MakeMaker: 6.42
@@ -10,7 +11,7 @@ build_requires:
 configure_requires:
   ExtUtils::MakeMaker: 6.42
 distribution_type: module
-generated_by: 'Module::Install version 0.91'
+generated_by: 'Module::Install version 0.95'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -24,7 +25,7 @@ no_index:
 provides:
   Dash::Leak:
     file: lib/Dash/Leak.pm
-    version: 0.01
+    version: 0.02
 requires:
   BSD::Process: 0
   Devel::Declare: 0
@@ -32,4 +33,4 @@ requires:
   perl: 5.8.8
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02
