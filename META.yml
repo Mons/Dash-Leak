@@ -25,12 +25,12 @@ no_index:
 provides:
   Dash::Leak:
     file: lib/Dash/Leak.pm
-    version: 0.02
+    version: 0.03
 requires:
-  BSD::Process: 0
   Devel::Declare: 0
   Guard: 0
+  Proc::ProcessTable: 0
   perl: 5.8.8
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.02
+version: 0.03

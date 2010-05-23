@@ -5,17 +5,19 @@ SYNOPSIS
     Quick summary of what the module does.
 
         use Dash::Leak;
-    
-        {
+        
+    {
             leaksz "block label";
             # some code, that may leak
         }
         # If your code leaked, you'll be noticed about change
         # of process vsize after leaving block
-    
-        leaksz "tests begin";
+        
+    leaksz "tests begin";
         some_operation($arg);
-        leaksz "some_operation", sub { "We leaked after some_operation($arg);" };
+        leaksz "some_operation", sub {
+            warn sprintf "We leaked after some_operation($arg) by %+d kilobytes;", shift
+        };
         another_operation();
         leaksz "another_operation";
         # ...
@@ -23,10 +25,10 @@ SYNOPSIS
 EXPORT
     Export of this module is "virtual", by using Devel::Declare. When
     $ENV{DEBUG_MEM} is true, it will work, when false, this opcodes will be
-    ignored, like with leaksz ... if 0;
+    ignored, like with "leaksz ... if 0";
 
 FUNCTIONS
-  leaksz $label, [$cb->()]
+  leaksz $label, [$cb->($delta)]
     Starts tracking current block. If something changed since last note,
     notice will be warned. If callback is passed, it will be invoked instead
     of warn.

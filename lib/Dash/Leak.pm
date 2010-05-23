@@ -10,7 +10,7 @@ Dash::Leak - Track memory allocation
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -27,7 +27,9 @@ Quick summary of what the module does.
     
     leaksz "tests begin";
     some_operation($arg);
-    leaksz "some_operation", sub { "We leaked after some_operation($arg);" };
+    leaksz "some_operation", sub {
+        warn sprintf "We leaked after some_operation($arg) by %+d kilobytes;", shift
+    };
     another_operation();
     leaksz "another_operation";
     # ...
@@ -35,11 +37,11 @@ Quick summary of what the module does.
 =head1 EXPORT
 
 Export of this module is "virtual", by using L<Devel::Declare>.
-When C<$ENV{DEBUG_MEM}> is true, it will work, when false, this opcodes will be ignored, like with leaksz ... if 0;
+When C<$ENV{DEBUG_MEM}> is true, it will work, when false, this opcodes will be ignored, like with C<leaksz ... if 0>;
 
 =head1 FUNCTIONS
 
-=head2 leaksz $label, [$cb->()]
+=head2 leaksz $label, [$cb->($delta)]
 
 Starts tracking current block.
 If something changed since last note, notice will be warned.
@@ -59,7 +61,7 @@ BEGIN {
 	}
 	elsif ($^O eq 'linux') {
 		require Proc::ProcessTable;
-		*sz = sub () { map { $_->{size} } grep { $_->{pid} == $$ } @{Proc::ProcessTable->new->table} };
+		*sz = sub () { (map { $_->{size} } grep { $_->{pid} == $$ } @{Proc::ProcessTable->new->table})[0] };
 	} else {
 		require Carp;Carp::croak( "Not implemented for platform $^O. Patches are welcome" );
 		# Win32::Process::Info for win
@@ -105,7 +107,7 @@ sub check(@) {
 	if ($delta != 0) {
 		$cmem = $mem;
 		if ($cb) {
-			$cb->();
+			$cb->($delta);
 		} else {
 			warn sprintf "%s %s: %+dk at %s line %s\n",($OUT ? '<-' : '->'),$op,$delta,(caller($OUT))[1,2];
 		}
@@ -149,7 +151,6 @@ Copyright 2010 Mons Anderson, all rights reserved.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-
 
 =cut
 
