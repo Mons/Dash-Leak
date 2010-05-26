@@ -1,6 +1,6 @@
 #!/usr/bin/env perl -w
 
-use common::sense;
+use strict;
 use Test::More;
 use lib::abs "../lib";
 BEGIN {
