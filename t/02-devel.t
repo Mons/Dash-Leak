@@ -15,6 +15,8 @@ leaksz "check", sub { diag "called for memuse @_"; $::use++; };
 	my $usescope = 'x'x1000000;# allocate at least 1Mb
 }
 
+my $useother = 'x'x1000000;# allocate at least 1Mb
+
 ok $::load, 'load ok';
 ok $::use, 'use ok';
 ok $::scope, 'scope ok';

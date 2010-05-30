@@ -10,7 +10,7 @@ Dash::Leak - Track memory allocation
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 =head1 SYNOPSIS
 
@@ -33,6 +33,8 @@ Quick summary of what the module does.
     another_operation();
     leaksz "another_operation";
     # ...
+
+    use Dash::Leak sub { ... }; # Will call this cb for every alloc, instead of warn
 
 =head1 EXPORT
 
@@ -82,11 +84,17 @@ BEGIN {
 	}
 }
 
-
+our $FIRST;
+our %CBS;
 sub import{
 	my $class = shift;
 	my $caller = caller;
-	check("use $class from @{[ (caller)[1,2] ]}",@_) if DEBUG;
+	my $cb = shift if @_;
+	check("use $class from @{[ (caller)[1,2] ]}",$cb ? $cb : ()) if DEBUG;
+	if (DEBUG and $cb) {
+		$FIRST ||= $cb;
+		$CBS{$caller} = $cb;
+	}
 	Devel::Declare->setup_for(
 		$caller,
 		{ $SUBNAME => { const => \&parse } }
@@ -107,9 +115,14 @@ sub check(@) {
 	if ($delta != 0) {
 		$cmem = $mem;
 		if ($cb) {
-			$cb->($delta);
+			$cb->($delta,$OUT ? 'out' : 'in' ,$op);
 		} else {
-			warn sprintf "%s %s: %+dk at %s line %s\n",($OUT ? '<-' : '->'),$op,$delta,(caller($OUT))[1,2];
+			my ($caller,$file,$line) = (caller($OUT))[0..2];
+			if (exists $CBS{$caller}) {
+				$CBS{$caller}->($delta, $OUT ? 'out' : 'in' ,$op);
+			} else {
+				warn sprintf "%s %s: %+dk at %s line %s\n",($OUT ? '<-' : '->'),$op,$delta,$file,$line;
+			}
 		}
 	}
 	return 1 if $OUT;
@@ -130,7 +143,7 @@ sub parse {
 }
 
 END {
-	DEBUG and check("Finishing");
+	DEBUG and check("Finishing", $FIRST ? $FIRST : ());
 }
 
 =head1 ACKNOWLEDGEMENTS

@@ -5,15 +5,15 @@ SYNOPSIS
     Quick summary of what the module does.
 
         use Dash::Leak;
-        
-    {
+    
+        {
             leaksz "block label";
             # some code, that may leak
         }
         # If your code leaked, you'll be noticed about change
         # of process vsize after leaving block
-        
-    leaksz "tests begin";
+    
+        leaksz "tests begin";
         some_operation($arg);
         leaksz "some_operation", sub {
             warn sprintf "We leaked after some_operation($arg) by %+d kilobytes;", shift
@@ -21,6 +21,8 @@ SYNOPSIS
         another_operation();
         leaksz "another_operation";
         # ...
+
+        use Dash::Leak sub { ... }; # Will call this cb for every alloc, instead of warn
 
 EXPORT
     Export of this module is "virtual", by using Devel::Declare. When

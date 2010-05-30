@@ -1,5 +1,8 @@
 Revision history for Dash-Leak
 
+0.05    2010-05-30
+        Fix test for late allocations (give warn at END stage)
+
 0.04    2010-05-25
         Just fix broken dependency in test
 
