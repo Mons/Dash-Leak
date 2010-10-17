@@ -16,6 +16,12 @@ our $VERSION = '0.05';
 
 Quick summary of what the module does.
 
+
+    BEGIN {
+        # enables operation of Dash::Leak, leaksz is a nop without this
+        $ENV{DEBUG_MEM} = 1;
+    }
+
     use Dash::Leak;
     
     {
