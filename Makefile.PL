@@ -18,7 +18,11 @@ if ($^O eq 'freebsd') {
 }
 elsif ($^O eq 'linux') {
 	requires 'Proc::ProcessTable';
-} else {
+}
+elsif ($^O eq 'MSWin32') {
+	requires 'Win32::Process::Info::WMI';
+}
+else {
 	die "NA: No support for $^O yet. Patches are welcome";
 }
 
@@ -26,4 +30,3 @@ auto_provides;
 auto_install;
 
 WriteAll;
-

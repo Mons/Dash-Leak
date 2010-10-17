@@ -65,8 +65,13 @@ BEGIN {
 		require Proc::ProcessTable;
 		*sz = sub () { (map { $_->{size} } grep { $_->{pid} == $$ } @{Proc::ProcessTable->new->table})[0] };
 	} else {
-		require Carp;Carp::croak( "Not implemented for platform $^O. Patches are welcome" );
-		# Win32::Process::Info for win
+		require Win32::Process::Info;
+		Win32::Process::Info->import( 'WMI' );
+
+		my $pi = Win32::Process::Info->new;
+		$pi->Set( elapsed_in_seconds => 0 );
+
+		*sz = sub () { $pi->GetProcInfo( { no_user_info => 1 }, $$ )->[0]->{PrivatePageCount} };
 	}
 }
 
