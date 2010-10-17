@@ -2,8 +2,20 @@
 
 use strict;
 use lib::abs '../lib';
-use Test::NoWarnings;
-use Test::More tests => 5;
+
+BEGIN {
+	return if $^O eq 'MSWin32';
+	require Test::NoWarnings;
+	Test::NoWarnings->import;
+}
+
+BEGIN {
+	require Test::More;
+	my $test_count = 5;
+	$test_count-- if $^O eq 'MSWin32';
+	Test::More->import( tests => $test_count );
+}
+
 BEGIN { $ENV{DEBUG_MEM} = 1 }
 use Dash::Leak sub { diag "called during load @_"; $::load++; };
 
