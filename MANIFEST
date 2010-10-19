@@ -23,7 +23,7 @@ README
 t/00-load.t
 t/01-production.t
 t/02-devel.t
-t/03_functionality.t
+t/03-functionality.t
 t/pod-coverage.t
 t/pod.t
 xt/99-dist.t
